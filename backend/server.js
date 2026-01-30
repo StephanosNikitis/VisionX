@@ -8,6 +8,8 @@ require('dotenv').config();
 require('./config/passport');
 const passportLib = require('passport');
 
+const response = require('./middlewares/response');
+
 const app = express();
 
 app.use(helmet());
@@ -18,6 +20,8 @@ app.use(cors({
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
+
+app.use(response);
 
 app.use(passportLib.initialize());
 
@@ -30,6 +34,8 @@ app.use('/api/doctor', require('./routes/doctor'))
 app.use('/api/patient', require('./routes/patient'))
 app.use('/api/appointment', require('./routes/appointment'))
 app.use('/api/payment',require('./routes/payment'))
+app.use('/api/hospital', require('./routes/hospital'))
+app.use('/api/bed', require('./routes/bed'))
 
 app.get('/health', (req,res) => res.ok({time: new Date().toISOString()}, 'OK'))
 
