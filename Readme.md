@@ -22,7 +22,7 @@
     ```bash
     npm start
     ```
-    The server will start on `http://localhost:3000`.
+    The server will start on `http://localhost:8000`.
 
 ### Frontend
 
@@ -38,7 +38,7 @@
     ```bash
     npm run dev
     ```
-    The application will be available at `http://localhost:3001`.
+    The application will be available at `http://localhost:3000`.
 
 ## Brief Description of Solution
 
