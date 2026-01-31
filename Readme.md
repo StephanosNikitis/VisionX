@@ -1,4 +1,4 @@
-## PROJECT TITLE - VisionX
+## PROJECT TITLE - Vision_X
 
 ## TEAM MEMBERS
 - Avinash Kumar
