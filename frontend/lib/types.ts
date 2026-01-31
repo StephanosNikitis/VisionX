@@ -29,6 +29,17 @@ export interface DoctorFormData {
   slotDurationMinutes?: number;
 }
 
+export interface HospitalFormData {
+  hospitalName: string;
+  phone: string;
+  city: string;
+  address: string;
+  totalBeds: number;
+  icuBeds: number;
+  emergencyBeds: number;
+  profileImage: string;
+}
+
 
 
 // ✅ Enhanced User Interface
@@ -36,7 +47,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  type: "doctor" | "patient";
+  type: "doctor" | "patient" | "hospital";
   phone?: string;
   profileImage?: string;
   isVerified:boolean
@@ -69,6 +80,14 @@ export interface User {
     address?: string;
     city?: string;
   };
+
+  // Hospital fields
+    hospitalName?: string;
+    totalBeds?: number;
+    icuBeds?: number;
+    emergencyBeds?: number;
+    address?: string;
+    city?: string;
 
   // ✅ Doctor availability fields
   availabilityRange?: {

@@ -49,6 +49,11 @@ const LandingHero = () => {
                          Login as Doctor
                      </Button>
                      </Link>
+                     <Link href='/login/hospital'>
+                        <Button size='lg' variant='outline' className='w-full border-blue-600 text-blue-600  bg-blue-50 hover:bg-blue-500 hover:text-white rounded-full px-8 py-3 text-lg'> 
+                         Login as Hospital
+                     </Button>
+                     </Link>
                       
             </div>
 

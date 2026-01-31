@@ -5,7 +5,6 @@ export const metadata = {
   description: 'Register as a healthcare provider on MediCare+ to offer online consultations.',
 };
 
-
 export default function DoctorSignUpPage() {
   return  <AuthForm type='signup' userRole='doctor'/>
 }

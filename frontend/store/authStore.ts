@@ -18,8 +18,10 @@ interface AuthState {
   //Api Actions
   loginDoctor: (email: string, password: string) => Promise<void>;
   loginPatient: (email: string, password: string) => Promise<void>;
+  loginHospital: (email: string, password: string) => Promise<void>;
   registerDoctor: (data: any) => Promise<void>;
   registerPatient: (data: any) => Promise<void>;
+  registerHospital: (data: any) => Promise<void>;
   fetchProfile: () => Promise<User | null>;
   updateProfile: (data: any) => Promise<void>;
 }
@@ -57,6 +59,22 @@ export const userAuthStore = create<AuthState>()(
       set({ loading: true, error: null });
       try {
         const response = await postWithoutAuth("/auth/doctor/login", {
+          email,
+          password,
+        });
+        get().setUser(response.data.user, response.data.token);
+      } catch (error: any) {
+        set({ error: error.message });
+        throw error;
+      } finally {
+        set({ loading: false });
+      }
+    },
+
+    loginHospital: async (email, password) => {
+      set({ loading: true, error: null });
+      try {
+        const response = await postWithoutAuth("/hospital/login", {
           email,
           password,
         });
@@ -111,13 +129,33 @@ export const userAuthStore = create<AuthState>()(
       }
     },
 
+    registerHospital: async (data) => {
+      set({ loading: true, error: null });
+      try {
+        const response = await postWithoutAuth("/hospital/signup", data);
+        get().setUser(response.data.user, response.data.token);
+      } catch (error: any) {
+        set({ error: error.message });
+        throw error;
+      } finally {
+        set({ loading: false });
+      }
+    },
+
 
     fetchProfile : async() : Promise<User | null> => {
         set({ loading: true, error: null });
         try {
             const {user} = get();
             if(!user) throw new Error("No user found");
-            const endPoint = user.type === 'doctor' ? "/doctor/me" : "/patient/me";
+            let endPoint = '';
+            if (user.type === 'doctor') {
+                endPoint = "/doctor/me";
+            } else if (user.type === 'patient') {
+                endPoint = "/patient/me";
+            } else if (user.type === 'hospital') {
+                endPoint = "/hospital/me";
+            }
             const response = await getWithAuth(endPoint)
             set({user: {...user, ...response.data}})
             return response.data;
@@ -135,7 +173,14 @@ export const userAuthStore = create<AuthState>()(
         try {
                          const {user} = get();
             if(!user) throw new Error("No user found");
-            const endPoint = user.type === 'doctor' ? "/doctor/onboarding/update" : "/patient/onboarding/update";
+            let endPoint = '';
+            if (user.type === 'doctor') {
+                endPoint = "/doctor/onboarding/update";
+            } else if (user.type === 'patient') {
+                endPoint = "/patient/onboarding/update";
+            } else if (user.type === 'hospital') {
+                endPoint = "/hospital/onboarding/update";
+            }
             const response = await putWithAuth(endPoint,data);
         set({user: {...user, ...response.data}})
         } catch (error:any) {

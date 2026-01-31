@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../landing/Header";
 import { useSearchParams } from "next/navigation";
 import { userAuthStore } from "@/store/authStore";

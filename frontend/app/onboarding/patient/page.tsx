@@ -5,7 +5,6 @@ export const metadata = {
   description: 'Complete your profile to start booking appointments.',
 };
 
-
 export default function PatientOnboardingPage() {
   return  <PatientOnboardingForm/>
 }

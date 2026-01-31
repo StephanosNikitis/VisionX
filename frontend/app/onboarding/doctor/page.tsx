@@ -5,8 +5,6 @@ export const metadata = {
   description: 'Set up your doctor profile to start offering consultations.',
 };
 
-
-
 export default function DoctorOnboardingPage() {
   return  <DoctorOnboardingForm/>
 }

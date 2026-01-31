@@ -14,7 +14,7 @@ import Link from 'next/link';
 
 interface AuthFormProps {
   type: 'login' | 'signup';
-  userRole: 'doctor' | 'patient';
+  userRole: 'doctor' | 'patient' | 'hospital';
 }
 
   const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -24,15 +24,21 @@ interface AuthFormProps {
     name: '',
     email: '',
     password: '',
+    hospitalName: '',
+    phone: '',
+    city: '',
+    address: '',
   });
   const [showPassword, setShowPassword] = useState(false);
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   
   const { 
     registerPatient, 
-    registerDoctor, 
+    registerDoctor,
+    registerHospital, 
     loginPatient, 
-    loginDoctor, 
+    loginDoctor,
+    loginHospital, 
     loading, 
     error ,
   } = userAuthStore();
@@ -54,11 +60,20 @@ interface AuthFormProps {
             email: formData.email,
             password: formData.password,
           });
-        } else {
+        } else if (userRole === 'patient') {
           await registerPatient({
             name: formData.name,
             email: formData.email,
             password: formData.password,
+          });
+        } else if (userRole === 'hospital') {
+          await registerHospital({
+            hospitalName: formData.hospitalName,
+            email: formData.email,
+            password: formData.password,
+            phone: formData.phone,
+            city: formData.city,
+            address: formData.address,
           });
         }
         router.push(`/onboarding/${userRole}`);
@@ -66,9 +81,12 @@ interface AuthFormProps {
         if (userRole === 'doctor') {
           await loginDoctor(formData.email, formData.password);
           router.push('/doctor/dashboard');
-        } else {
+        } else if (userRole === 'patient') {
           await loginPatient(formData.email, formData.password);
           router.push('/patient/dashboard');
+        } else if (userRole === 'hospital') {
+          await loginHospital(formData.email, formData.password);
+          router.push('/hospital/dashboard');
         }
       }
     } catch (err) {
@@ -102,7 +120,7 @@ interface AuthFormProps {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Name field for signup */}
-            {isSignup && (
+            {isSignup && userRole !== 'hospital' && (
               <div className="space-y-2">
                 <Label htmlFor="name">Full Name</Label>
                 <Input
@@ -114,6 +132,55 @@ interface AuthFormProps {
                   required
                 />
               </div>
+            )}
+
+            {isSignup && userRole === 'hospital' && (
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="hospitalName">Hospital Name</Label>
+                  <Input
+                    id="hospitalName"
+                    type="text"
+                    value={formData.hospitalName}
+                    onChange={(e) => setFormData({ ...formData, hospitalName: e.target.value })}
+                    className="border-0 border-b-2 border-gray-300 rounded-none focus:border-blue-600 focus-visible:ring-0"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="phone">Phone</Label>
+                  <Input
+                    id="phone"
+                    type="text"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    className="border-0 border-b-2 border-gray-300 rounded-none focus:border-blue-600 focus-visible:ring-0"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="city">City</Label>
+                  <Input
+                    id="city"
+                    type="text"
+                    value={formData.city}
+                    onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                    className="border-0 border-b-2 border-gray-300 rounded-none focus:border-blue-600 focus-visible:ring-0"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="address">Address</Label>
+                  <Input
+                    id="address"
+                    type="text"
+                    value={formData.address}
+                    onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                    className="border-0 border-b-2 border-gray-300 rounded-none focus:border-blue-600 focus-visible:ring-0"
+                    required
+                  />
+                </div>
+              </>
             )}
 
             {/* Email */}

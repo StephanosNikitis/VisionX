@@ -71,6 +71,21 @@ const Header: React.FC<HeaderProps> = ({ showDashboardNav = false }) => {
           active: pathname?.includes("/doctor/appointments") || false,
         },
       ];
+    } else if (user?.type === "hospital") {
+        return [
+            {
+                lable: "Dashboard",
+                icon: Calendar,
+                href: "/hospital/dashboard",
+                active: pathname?.includes("/hospital/dashboard") || false,
+            },
+            {
+                lable: "Doctors",
+                icon: Stethoscope,
+                href: "/hospital/doctors",
+                active: pathname?.includes("/hospital/doctors") || false,
+            },
+        ];
     }
     return [];
   };
@@ -165,15 +180,15 @@ const Header: React.FC<HeaderProps> = ({ showDashboardNav = false }) => {
                   <Avatar className="w-8 h-8">
                     <AvatarImage
                       src={user?.profileImage}
-                      alt={user?.name}
+                      alt={user?.type === 'hospital' ? user?.hospitalName : user?.name}
                     ></AvatarImage>
                     <AvatarFallback className="bg-blue-100 text-blue-600 text-sm font-semibold">
-                      {user?.name?.charAt(0)?.toUpperCase()}
+                      {user?.type === 'hospital' ? user?.hospitalName?.charAt(0)?.toUpperCase() : user?.name?.charAt(0)?.toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                   <div className="hidden md:block text-left">
                     <p className="text-sm font-medium text-gray-900">
-                      {user?.name}
+                      {user?.type === 'hospital' ? user?.hospitalName : user?.name}
                     </p>
                     <p className="text-xs text-gray-500 capitalize">
                       {user?.type}
@@ -187,15 +202,15 @@ const Header: React.FC<HeaderProps> = ({ showDashboardNav = false }) => {
                     <Avatar className="w-10 h-10">
                       <AvatarImage
                         src={user?.profileImage}
-                        alt={user?.name}
+                        alt={user?.type === 'hospital' ? user?.hospitalName : user?.name}
                       ></AvatarImage>
                       <AvatarFallback className="bg-blue-100 text-blue-600 ">
-                        {user?.name?.charAt(0)?.toUpperCase()}
+                        {user?.type === 'hospital' ? user?.hospitalName?.charAt(0)?.toUpperCase() : user?.name?.charAt(0)?.toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
 
                     <div className="flex-1 min-w-0">
-                      <p className=" font-medium truncate">{user?.name}</p>
+                      <p className=" font-medium truncate">{user?.type === 'hospital' ? user?.hospitalName : user?.name}</p>
                       <p className="text-sm text-gray-500 truncate max-w-[140px]">
                         {user?.email}
                       </p>

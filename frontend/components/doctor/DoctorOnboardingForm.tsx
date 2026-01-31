@@ -1,7 +1,7 @@
 "use client";
 import { DoctorFormData, HospitalInfo } from "@/lib/types";
 import { userAuthStore } from "@/store/authStore";
-import React, { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Card, CardContent } from "../ui/card";
 import { useRouter } from "next/navigation";
 import { Label } from "../ui/label";
